@@ -1,0 +1,46 @@
+.wrapper{
+    margin: 0 auto;
+}
+
+table, td,th{
+    border: 1px solid #0D1321;
+    border-collapse: collapse;
+
+
+}
+th {
+    background-color: #C5D86D;
+    padding: 5px;
+    font-style: italic;
+}
+
+td {
+    text-align: center;
+    background-color:#FFEDDF;
+    padding: 5px;
+
+}
+
+.ymax {
+    background-color: red;
+}
+.xmax{
+    background-color: #AFE0CE;
+}
+
+.underscore {
+    text-decoration: overline;
+}
+
+.variant {
+    font-size: 8px;
+}
+section{
+    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+}
+
+.wrapper{
+    display: flex;
+    flex-direction: column;
+
+}
