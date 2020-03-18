@@ -72,8 +72,8 @@ let randomFactors = (Xlen, lenOfExperiments) => {
 
 //Перевірка Кохрена
 do {
-
     m++
+
     for (let i = 0; i < 4; i++) {
         Yarr.push([]);
         for (let j = 0; j < m; j++) {
@@ -100,11 +100,13 @@ do {
     Gp = Math.max(...dyArr) / arrSum(dyArr);
 
 }
+
 while (Gp > koxhrenTalbe[m - 2]) {
 }
 
 colSelector = document.getElementById("checkingDispersion")
 colSelector.innerHTML = `Gp = ${Gp} < Gt = ${koxhrenTalbe[m-2]}`
+
 colSelector.innerHTML += " Одже дисперсія однорідна!"
 
 
