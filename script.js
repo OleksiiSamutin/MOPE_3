@@ -15,7 +15,20 @@ let normMatrix = [[X1_MIN, X1_MIN, X1_MAX, X1_MAX],
 let [deltaX1, deltaX2, deltaX3] = [(Math.abs(X1_MAX - X1_MIN)) / 2, (Math.abs(X2_MAX - X2_MIN)) / 2, (Math.abs(X3_MAX - X3_MIN)) / 2];
 const [x10, x20, x30] = [(X1_MAX + X1_MIN) / 2, (X2_MAX + X2_MIN) / 2, (X3_MAX + X3_MIN) / 2]
 let Yarr = [];
-const fisherTable = [5.3, 4.5, 4.1, 3.8];
+// const fisherTable = [5.3, 4.5, 4.1, 3.8];
+const fisherTable = {
+    1: { 1: 164.4, 2: 199.5, 3: 215.7, 4: 224.6, 5: 230.2, 6: 234.0, 12: 244.9, 24: 249.0 },
+    2: { 1: 18.5, 2: 19.2, 3: 19.2, 4: 19.3, 5: 19.3, 6: 19.3, 12: 19.4, 24: 19.4},
+    3: { 1: 10.1, 2: 9.6, 3: 9.3, 4: 9.1, 5: 9.0, 6: 8.9, 12: 8.7, 24:  8.6},
+    4: { 1: 7.7, 2: 6.9, 3: 6.6, 4: 6.4, 5: 6.3, 6: 6.2, 12: 5.9, 24: 5.8 },
+    5: { 1: 6.6, 2: 5.8, 3: 5.4, 4: 5.2, 5: 5.1, 6: 5.0, 12: 4.7, 24: 4.5 },
+    6: { 1: 6.0, 2: 5.1, 3: 4.8, 4: 4.5, 5: 4.4, 6: 4.3, 12: 4.0, 24: 3.8 },
+    7: { 1: 5.5, 2: 4.7, 3: 4.4, 4: 4.1, 5: 4.0, 6: 3.9, 12: 3.6, 24: 3.4 },
+    8: { 1: 5.3, 2: 4.5, 3: 4.1, 4: 3.8, 5: 3.7, 6: 3.6, 12: 3.3, 24: 3.1 },
+    9: { 1: 164.4, 2: 199.5, 3: 215.7, 4: 224.6, 5: 230.2, 6: 234.0, 12: 244.9, 24: 249.0 },
+    10: { 1: 164.4, 2: 199.5, 3: 215.7, 4: 224.6, 5: 230.2, 6: 234.0, 12: 244.9, 24: 249.0 }
+
+}
 let Gp;
 let Yavr;
 let dyArr;
@@ -105,7 +118,7 @@ while (Gp > koxhrenTalbe[m - 2]) {
 }
 
 colSelector = document.getElementById("checkingDispersion")
-colSelector.innerHTML = `Gp = ${Gp} < Gt = ${koxhrenTalbe[m-2]}`
+colSelector.innerHTML = `Gp = ${Gp} < Gt = ${koxhrenTalbe[m - 2]}`
 
 colSelector.innerHTML += " Одже дисперсія однорідна!"
 
@@ -232,8 +245,8 @@ for (let i = 0; i < yStudent.length; i++) {
 }
 Fr = m / (n - d) * Fr;
 colSelector = document.getElementById("fisher");
-if (Fr > fisherTable[d - 1]) {
-    colSelector.innerHTML = ` Fr = ${Fr} > Ft = ${fisherTable[d - 1]} <br/>
+if (Fr > fisherTable[f3][f4]) {
+    colSelector.innerHTML = ` Fr = ${Fr} > Ft = ${fisherTable[f3][f4]} <br/>
     Рівняння регресії неадекватно оригіналу при рівні значимості 0.05`
 } else {
     colSelector.innerHTML = ` Fr = ${Fr} < Ft = ${fisherTable[d - 1]} <br/>
