@@ -89,7 +89,7 @@ do {
             for (let j = 0; j < Yarr[i].length; j++) {
                 tempresult += (Yarr[i][j] - Yavr[i]) ** 2
             }
-            result.push(tempresult / 3);
+            result.push(tempresult / m);
 
         }
         return result;
