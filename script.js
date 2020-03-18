@@ -3,7 +3,7 @@ const VARIANT_NUMBER = 218;
 const [X1_MIN, X1_MAX] = [-20, 30];
 const [X2_MIN, X2_MAX] = [-35, 15];
 const [X3_MIN, X3_MAX] = [-20, 5];
-let m = 3;
+let m = 2;
 let n = 3;
 const [X_AVR_MAX, X_AVR_MIN] = [((X1_MAX + X2_MAX + X3_MAX) / 3), ((X1_MIN + X2_MIN + X3_MIN) / 3)]
 const [Y_MIN, Y_MAX] = [(200 + X_AVR_MIN), (200 + X_AVR_MAX)];
@@ -16,18 +16,18 @@ let [deltaX1, deltaX2, deltaX3] = [(Math.abs(X1_MAX - X1_MIN)) / 2, (Math.abs(X2
 const [x10, x20, x30] = [(X1_MAX + X1_MIN) / 2, (X2_MAX + X2_MIN) / 2, (X3_MAX + X3_MIN) / 2]
 let Yarr = [];
 const fisherTable = [5.3, 4.5, 4.1, 3.8];
+let Gp;
+let Yavr;
+let dyArr;
+const koxhrenTalbe = [0.9065, 0.7679, 0.6841, 0.6287, 0.5892, 0.5598, 0.5365, 0.5175,
+    0.5017, 0.4884, 0.4366, 0.3720, 0.3093, 0.2500]
 let randomInteger = (min, max) => {
     // случайное число от min до (max+1)
     let rand = min + Math.random() * (max + 1 - min);
     return Math.floor(rand);
 }
 
-for (let i = 0; i < 4; i++) {
-    Yarr.push([]);
-    for (let j = 0; j < m; j++) {
-        Yarr[i].push(randomInteger(Y_MIN, Y_MAX));
-    }
-}
+
 // Yarr = [[15,18,16],
 //         [10,19,13],
 //         [11,14,12],
@@ -70,9 +70,44 @@ let randomFactors = (Xlen, lenOfExperiments) => {
     return result;
 }
 
+//Перевірка Кохрена
+do {
+
+    m++
+    for (let i = 0; i < 4; i++) {
+        Yarr.push([]);
+        for (let j = 0; j < m; j++) {
+            Yarr[i].push(randomInteger(Y_MIN, Y_MAX));
+        }
+    }
+    // Знаходжу дисперсію
+    let dy = (Yarr, Yavr) => {
+        let result = [];
+
+        for (let i = 0; i < Yavr.length; i++) {
+            let tempresult = 0;
+            for (let j = 0; j < Yarr[i].length; j++) {
+                tempresult += (Yarr[i][j] - Yavr[i]) ** 2
+            }
+            result.push(tempresult / 3);
+
+        }
+        return result;
+    }
+    Yavr = Yarr.map(value => arrSum(value) / m)
+    dyArr = dy(Yarr, Yavr)
+    // Перевіряємо однорідність дисперсії
+    Gp = Math.max(...dyArr) / arrSum(dyArr);
+
+}
+while (Gp > koxhrenTalbe[m - 2]) {
+}
+
+colSelector = document.getElementById("checkingDispersion")
+colSelector.innerHTML = `Gp = ${Gp} < Gt = ${koxhrenTalbe[m-2]}`
+colSelector.innerHTML += " Одже дисперсія однорідна!"
 
 
-let Yavr = Yarr.map(value => arrSum(value) / m)
 let [mx1, mx2, mx3] = normMatrix.map((value) => arrSum(value) / 4);
 let [a1, a2, a3] = normMatrix.map((value, index) => arrSum(value.map((x, i) => x * Yavr[i])) / 4)
 let [a11, a22, a33] = normMatrix.map((value) => arrSum(value.map(x => x ** 2)) / 4);
@@ -133,28 +168,7 @@ let b3 = determinant([
     [mx3, a31, a32, a33]
 ]);
 
-// Знаходжу дисперсію
-let dy = (Yarr, Yavr) => {
-    let result = [];
 
-    for (let i = 0; i < Yavr.length; i++) {
-        let tempresult = 0;
-        for (let j = 0; j < Yarr[i].length; j++) {
-            tempresult += (Yarr[i][j] - Yavr[i]) ** 2
-        }
-        result.push(tempresult / 3);
-
-    }
-    return result;
-}
-const dyArr = dy(Yarr, Yavr)
-// Перевіряємо однорідність дисперсії
-let Gp = Math.max(...dyArr) / arrSum(dyArr);
-if (Gp < 0.7679) {
-    colSelector = document.getElementById("checkingDispersion")
-    colSelector.innerHTML = `Gp = ${Gp} < Gt = 0.7679`
-    colSelector.innerHTML += " Одже дисперсія однорідна!"
-}
 
 //Перевірка критерієм Стюдента
 let Sb2 = arrSum(dyArr) / 4;
