@@ -99,6 +99,10 @@ do {
     dyArr = dy(Yarr, Yavr)
     // Перевіряємо однорідність дисперсії
     Gp = Math.max(...dyArr) / arrSum(dyArr);
+    if (m-1 > koxhrenTable.length){
+        alert("Немає табличних значень для M > 15")
+        break;
+    }
 
 }
 
